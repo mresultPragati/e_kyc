@@ -2,7 +2,8 @@ import axios from "axios";
 
 // Create Axios instance
 const axiosInstance = axios.create({
-  baseURL: "https://ext.digio.in:444", // Base URL of the back-end API
+  baseURL: "http://localhost:8080",
+  // baseURL: "https://ext.digio.in:444", // Base URL of the back-end API
   // baseURL: process.env.REACT_APP_API_URL || "https://ext.digio.in:444", // Base URL of the back-end API
 
   // withCredentials: true, // Send cookies with requests (only use if required)

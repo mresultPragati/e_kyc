@@ -4,6 +4,7 @@ import { DocVerifyForm } from "./Documents/DocVarifyForm";
 import { validateDocumentNumber } from "./Documents/constants";
 import { AlertMessage } from "../../reusableComponet/ALertMessage";
 import { clientKYC } from "../../services/ApiServices";
+import CircleLoader from "../../reusableComponet/loader/CircleLoader";
 
 type DynamicState<T> = {
   [key: string]: T;
@@ -22,6 +23,7 @@ export const PersonalDetail = () => {
     msg: "",
     severity: "",
   });
+  const [showLoader, setShowLoader] = useState(false);
 
   const generateDigioURL = async () => {
     // const apiResponse = {
@@ -55,39 +57,44 @@ export const PersonalDetail = () => {
       template_name: "AADHAR_VARIFICATION",
     };
 
-    const resp = await clientKYC(payload);
+    // const resp = await clientKYC(payload);
+    const resp = await clientKYC(formData?.docNum);
     console.log("handleUploadClick", resp);
-    if (resp?.status === 200) {
-      const apiResponse = resp?.data;
-      // Extract relevant data
-      const { access_token, customer_identifier } = apiResponse;
-      const entity_id = access_token.entity_id;
-      const token_id = access_token.id;
-      const customerEmail = encodeURIComponent(customer_identifier); // Ensure email is URL safe
+    if (resp) setShowLoader(false);
 
-      // Construct the URL
-      const sdkVersion = "9.0";
-      const logo = "..%2Fimages%2Fdigio_logo_blue.png";
-      const method = "otp";
-      const theme = encodeURIComponent(
-        JSON.stringify({ PRIMARY_COLOR: "#2979BF", SECONDARY_COLOR: "#FFFFFF" })
-      );
+    // if (resp?.status === 200) {
+    const apiResponse = resp;
+    // const apiResponse = resp?.data;
 
-      const digioUrl = `https://ext.digio.in/#/gateway/login/${entity_id}/${token_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
+    // Extract relevant data
+    const { access_token, customer_identifier } = apiResponse;
+    const entity_id = access_token.entity_id;
+    const token_id = access_token.id;
+    const customerEmail = encodeURIComponent(customer_identifier); // Ensure email is URL safe
 
-      console.log(digioUrl, "digioUrl");
-      const width = 500;
-      const height = 750;
+    // Construct the URL
+    const sdkVersion = "9.0";
+    const logo = "..%2Fimages%2Fdigio_logo_blue.png";
+    const method = "otp";
+    const theme = encodeURIComponent(
+      JSON.stringify({ PRIMARY_COLOR: "#2979BF", SECONDARY_COLOR: "#FFFFFF" })
+    );
 
-      // Calculate the center position
-      const left = window.screen.width / 2 - width / 2;
-      const top = window.screen.height / 2 - height / 2;
+    const digioUrl = `https://ext.digio.in/#/gateway/login/${entity_id}/${token_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
 
-      // Set window options, including the calculated center position
-      const windowFeatures = `height=${height},width=${width},top=${top},left=${left},scrollbars=no,resizable=yes`;
+    console.log(digioUrl, "digioUrl");
+    const width = 500;
+    const height = 750;
 
-      window.open(digioUrl, "_blank", windowFeatures);
-    }
+    // Calculate the center position
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
+
+    // Set window options, including the calculated center position
+    const windowFeatures = `height=${height},width=${width},top=${top},left=${left},scrollbars=no,resizable=yes`;
+
+    window.open(digioUrl, "_blank", windowFeatures);
+    // }
   };
 
   const handleUploadClick = async (e: React.FormEvent) => {
@@ -120,11 +127,14 @@ export const PersonalDetail = () => {
     //   Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: "" }), {})
     // );
     // setAlertMsg({ msg: `Verification Done Successfully`, severity: "success" });
+    setShowLoader(true);
     generateDigioURL();
   };
 
   return (
     <>
+      {showLoader && <CircleLoader />}
+
       <div style={{ padding: "2rem 3rem" }}>
         <h5 className="mb-5 d-flex justify-content-center">
           ADD/UPDATE PERSONAL DETAILS

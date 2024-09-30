@@ -1,16 +1,18 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 
-export const clientKYC = async (payload: any, contentType?: string) => {
+export const clientKYC = async (aadharNum: string) => {
+  // export const clientKYC = async (payload: any, contentType?: string) => {
   try {
     const response = await axiosInstance.post(
-      "/client/kyc/v2/request/with_template",
-      payload,
+      `/api/verify-aadhar?aadhar=${aadharNum}&customerIdentifier=harshal.gidh@mresult.com&templateName=AADHAR_VARIFICATION`,
+      // payload,
       {
         headers: {
-          "Content-Type": contentType ? contentType : "application/json",
-          Authorization:
-            "Basic QUNLMjQwOTI0MTcxODU1MTc5WkZERlFQSkJONTJIM1A6TzJXTEFKSzQzNjk2U05TQ1lYM1VXV0NGRklDU0VFMko=",
+          "Content-Type": "application/json",
+          // "Content-Type": contentType ? contentType : "application/json",
+          // Authorization:
+          //   "Basic QUNLMjQwOTI0MTcxODU1MTc5WkZERlFQSkJONTJIM1A6TzJXTEFKSzQzNjk2U05TQ1lYM1VXV0NGRklDU0VFMko=",
         },
       }
     );
