@@ -8,6 +8,7 @@ import { Footer } from "./footer/Footer";
 import "./App.css";
 import PersonalDetailTest from "./Test/Detail";
 import { EKycForm } from "./eKyc";
+import BankAccount from "./account";
 
 function App() {
   // useEffect(() => {
@@ -44,12 +45,13 @@ function App() {
     <div className="App">
       <TopBar />
       {/* <PersonalDetailTest /> */}
-      <div style={{ width: "fit-content" }}>
-        <Routes>
-          <Route path={navigatorPath.home} element={<Home />} />
-          <Route path={navigatorPath.eKyc} element={<EKycForm />} />
-        </Routes>
-      </div>
+
+      <Routes>
+        <Route path={navigatorPath.home} element={<Home />} />
+        <Route path={navigatorPath.eKyc} element={<EKycForm />} />
+        <Route path={navigatorPath.account} element={<BankAccount />} />
+      </Routes>
+
       <Footer />
     </div>
   );

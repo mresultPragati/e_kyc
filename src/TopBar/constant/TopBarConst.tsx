@@ -2,11 +2,13 @@ export const navigatorPath = {
   home: "/",
   // home: "/home",
   eKyc: "/eKyc",
+  account: "/account",
 };
 
 export const topBarMenu = [
   { name: "Home", path: navigatorPath?.home },
   { name: "E-KYC", path: navigatorPath?.eKyc },
+  { name: "Account", path: navigatorPath?.account },
   // {
   //   name: "Analysis",
   //   subMenu: [
