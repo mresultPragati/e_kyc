@@ -5,7 +5,7 @@ export const clientKYC = async (aadharNum: string) => {
   // export const clientKYC = async (payload: any, contentType?: string) => {
   try {
     const response = await axiosInstance.post(
-      `/api/verify-aadhar?aadhar=${aadharNum}&customerIdentifier=harshal.gidh@mresult.com&templateName=AADHAR_VARIFICATION`,
+      `/api/verify-aadhar?aadhar=${aadharNum}&customerIdentifier=raja.soni@mresult.com&templateName=AADHAR_VARIFICATION`,
       // payload,
       {
         headers: {

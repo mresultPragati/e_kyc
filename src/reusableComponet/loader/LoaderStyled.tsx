@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const RoundLoader = styled.div`
   border: 6px solid transparent;
   border-radius: 50%;
-  border-top: 6px solid #042f50;
+  border-top: 6px solid #84c14b;
   width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;

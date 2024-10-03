@@ -59,17 +59,19 @@ export const PersonalDetail = () => {
 
     // const resp = await clientKYC(payload);
     const resp = await clientKYC(formData?.docNum);
-    console.log("handleUploadClick", resp);
-    if (resp) setShowLoader(false);
+    console.log("handleUploadClick", resp,formData?.docNum);
+    if (resp){
+       setShowLoader(false);
 
     // if (resp?.status === 200) {
     const apiResponse = resp;
     // const apiResponse = resp?.data;
 
     // Extract relevant data
-    const { access_token, customer_identifier } = apiResponse;
+    const { access_token,reference_id, customer_identifier,id } = apiResponse;
+    
     const entity_id = access_token.entity_id;
-    const token_id = access_token.id;
+    const token_id = access_token?.id;
     const customerEmail = encodeURIComponent(customer_identifier); // Ensure email is URL safe
 
     // Construct the URL
@@ -80,7 +82,8 @@ export const PersonalDetail = () => {
       JSON.stringify({ PRIMARY_COLOR: "#2979BF", SECONDARY_COLOR: "#FFFFFF" })
     );
 
-    const digioUrl = `https://ext.digio.in/#/gateway/login/${entity_id}/${token_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
+    // const digioUrl = `https://ext.digio.in/#/gateway/login/${entity_id}/${token_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
+    const digioUrl = `https://ext.digio.in/#/gateway/login/${id}/${reference_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
 
     console.log(digioUrl, "digioUrl");
     const width = 500;
@@ -94,6 +97,7 @@ export const PersonalDetail = () => {
     const windowFeatures = `height=${height},width=${width},top=${top},left=${left},scrollbars=no,resizable=yes`;
 
     window.open(digioUrl, "_blank", windowFeatures);
+    }
     // }
   };
 
