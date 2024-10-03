@@ -5,6 +5,7 @@ import { validateDocumentNumber } from "./Documents/constants";
 import { AlertMessage } from "../../reusableComponet/ALertMessage";
 import { clientKYC } from "../../services/ApiServices";
 import CircleLoader from "../../reusableComponet/loader/CircleLoader";
+import { generateDigiURL } from "./constant";
 
 type DynamicState<T> = {
   [key: string]: T;
@@ -18,6 +19,7 @@ export const PersonalDetail = () => {
   // const [docType, setDocType] = useState("");
   const [formData, setFormData] = useState<DynamicState<any>>(initialState);
   // const [extDigiUrl, setExtDigioUrl] = useState("");
+  const [errors, setErrors] = useState("");
 
   const [alertMsg, setAlertMsg] = useState({
     msg: "",
@@ -25,91 +27,15 @@ export const PersonalDetail = () => {
   });
   const [showLoader, setShowLoader] = useState(false);
 
-  const generateDigioURL = async () => {
-    // const apiResponse = {
-    //   id: "KID240927180758285COKGHCB3BUB2PP",
-    //   created_at: "2024-09-27 18:07:58",
-    //   status: "requested",
-    //   customer_identifier: "pragati.dhobe@mresult.com",
-    //   reference_id: "CRN240927180758285O4",
-    //   request_details: {
-    //     "aadhar number": "452494347990",
-    //   },
-    //   transaction_id: "CRN240927180758285O4",
-    //   customer_name: "",
-    //   expire_in_days: 10,
-    //   reminder_registered: false,
-    //   access_token: {
-    //     entity_id: "KID240927180758285COKGHCB3BUB2PP",
-    //     id: "GWT240927180758317R4RM4ONE8NFEAS",
-    //     valid_till: "2024-09-28 18:07:58",
-    //     created_at: "2024-09-27 18:07:58",
-    //   },
-    //   workflow_name: "AADHAR_VARIFICATION",
-    //   auto_approved: false,
-    //   template_id: "KTP240925153829472IIR9ZUDHHPMVAP",
-    // };
-    const payload = {
-      request_details: {
-        "aadhar number": formData?.docNum,
-      },
-      customer_identifier: "pragati.dhobe@mresult.com",
-      template_name: "AADHAR_VARIFICATION",
-    };
-
-    // const resp = await clientKYC(payload);
-    const resp = await clientKYC(formData?.docNum);
-    console.log("handleUploadClick", resp,formData?.docNum);
-    if (resp){
-       setShowLoader(false);
-
-    // if (resp?.status === 200) {
-    const apiResponse = resp;
-    // const apiResponse = resp?.data;
-
-    // Extract relevant data
-    const { access_token,reference_id, customer_identifier,id } = apiResponse;
-    
-    const entity_id = access_token.entity_id;
-    const token_id = access_token?.id;
-    const customerEmail = encodeURIComponent(customer_identifier); // Ensure email is URL safe
-
-    // Construct the URL
-    const sdkVersion = "9.0";
-    const logo = "..%2Fimages%2Fdigio_logo_blue.png";
-    const method = "otp";
-    const theme = encodeURIComponent(
-      JSON.stringify({ PRIMARY_COLOR: "#2979BF", SECONDARY_COLOR: "#FFFFFF" })
-    );
-
-    // const digioUrl = `https://ext.digio.in/#/gateway/login/${entity_id}/${token_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
-    const digioUrl = `https://ext.digio.in/#/gateway/login/${id}/${reference_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
-
-    console.log(digioUrl, "digioUrl");
-    const width = 500;
-    const height = 750;
-
-    // Calculate the center position
-    const left = window.screen.width / 2 - width / 2;
-    const top = window.screen.height / 2 - height / 2;
-
-    // Set window options, including the calculated center position
-    const windowFeatures = `height=${height},width=${width},top=${top},left=${left},scrollbars=no,resizable=yes`;
-
-    window.open(digioUrl, "_blank", windowFeatures);
-    }
-    // }
-  };
-
   const handleUploadClick = async (e: React.FormEvent) => {
     // // e.preventDefault();
-    // if (!formData?.docType || formData?.docType === "") {
-    //   setAlertMsg({
-    //     msg: "Please select a document type",
-    //     severity: "error",
-    //   });
-    //   return;
-    // }
+    if (!formData?.docType || formData?.docType === "") {
+      setAlertMsg({
+        msg: "Please select a document type",
+        severity: "error",
+      });
+      return;
+    }
     if (!formData?.docNum || formData?.docNum === "") {
       setAlertMsg({
         msg: "Please enter the document number",
@@ -132,7 +58,7 @@ export const PersonalDetail = () => {
     // );
     // setAlertMsg({ msg: `Verification Done Successfully`, severity: "success" });
     setShowLoader(true);
-    generateDigioURL();
+    generateDigiURL(formData, setShowLoader);
   };
 
   return (
@@ -152,6 +78,8 @@ export const PersonalDetail = () => {
               formData={formData}
               setFormData={setFormData}
               //    document={document    setDocument={setDocument}
+              errors={errors}
+              setErrors={setErrors}
             />
             <Button
               className="mt-5"

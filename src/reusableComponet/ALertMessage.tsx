@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Snackbar } from "@mui/material";
 
-export const AlertMessage = (props:any) => {
+export const AlertMessage = (props: any) => {
   const { alertMsg, setAlertMsg } = props;
 
   const handleClose = () => {
@@ -11,7 +11,6 @@ export const AlertMessage = (props:any) => {
   return (
     <>
       {" "}
-     
       <Snackbar
         open={alertMsg.msg}
         autoHideDuration={3000} // 3 seconds
@@ -22,7 +21,7 @@ export const AlertMessage = (props:any) => {
           variant="filled"
           onClose={handleClose}
           severity={alertMsg?.severity}
-        //   sx={{ width: "50%" }}
+          //   sx={{ width: "50%" }}
         >
           {alertMsg?.msg}
         </Alert>
