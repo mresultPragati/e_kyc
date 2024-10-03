@@ -41,19 +41,22 @@ export const generateDigiURL = async (formData: any, setShowLoader: any) => {
   const apiResponse = resp;
   // const apiResponse = resp?.data;
 
-  const { access_token, customer_identifier } = apiResponse;
-  const entity_id = access_token.entity_id;
-  const token_id = access_token.id;
-  const customerEmail = encodeURIComponent(customer_identifier); // Ensure email is URL safe
+  const { access_token,reference_id, customer_identifier,id } = apiResponse;
+    
+    const entity_id = access_token?.entity_id;
+    const token_id = access_token?.id;
+    const customerEmail = encodeURIComponent(customer_identifier); // Ensure email is URL safe
 
-  const sdkVersion = "9.0";
-  const logo = "..%2Fimages%2Fdigio_logo_blue.png";
-  const method = "otp";
-  const theme = encodeURIComponent(
-    JSON.stringify({ PRIMARY_COLOR: "#2979BF", SECONDARY_COLOR: "#FFFFFF" })
-  );
+    // Construct the URL
+    const sdkVersion = "9.0";
+    const logo = "..%2Fimages%2Fdigio_logo_blue.png";
+    const method = "otp";
+    const theme = encodeURIComponent(
+      JSON.stringify({ PRIMARY_COLOR: "#2979BF", SECONDARY_COLOR: "#FFFFFF" })
+    );
 
-  const digioUrl = `https://ext.digio.in/#/gateway/login/${entity_id}/${token_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
+    // const digioUrl = `https://ext.digio.in/#/gateway/login/${entity_id}/${token_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
+    const digioUrl = `https://ext.digio.in/#/gateway/login/${id}/${reference_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
 
   console.log(digioUrl, "digioUrl");
   const width = 500;
@@ -68,7 +71,7 @@ export const generateDigiURL = async (formData: any, setShowLoader: any) => {
 
   const popup: any = window.open(digioUrl, "_blank", windowFeatures);
   const checkPopupClosed = setInterval(() => {
-    if (popup.closed) {
+    if (popup?.closed) {
       clearInterval(checkPopupClosed);
       handleDigiLockerRedirect();
     }
