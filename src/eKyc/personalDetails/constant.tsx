@@ -1,29 +1,7 @@
 import { clientKYC } from "../../services/ApiServices";
 
-export const generateDigiURL = async (formData: any, setShowLoader: any) => {
-  // const apiResponse = {
-  //   id: "KID240927180758285COKGHCB3BUB2PP",
-  //   created_at: "2024-09-27 18:07:58",
-  //   status: "requested",
-  //   customer_identifier: "pragati.dhobe@mresult.com",
-  //   reference_id: "CRN240927180758285O4",
-  //   request_details: {
-  //     "aadhar number": "452494347990",
-  //   },
-  //   transaction_id: "CRN240927180758285O4",
-  //   customer_name: "",
-  //   expire_in_days: 10,
-  //   reminder_registered: false,
-  //   access_token: {
-  //     entity_id: "KID240927180758285COKGHCB3BUB2PP",
-  //     id: "GWT240927180758317R4RM4ONE8NFEAS",
-  //     valid_till: "2024-09-28 18:07:58",
-  //     created_at: "2024-09-27 18:07:58",
-  //   },
-  //   workflow_name: "AADHAR_VARIFICATION",
-  //   auto_approved: false,
-  //   template_id: "KTP240925153829472IIR9ZUDHHPMVAP",
-  // };
+export const generateDigiURL = async (formData: any, setShowLoader: any, setAlertMsg: any) => {
+
   const payload = {
     request_details: {
       "aadhar number": formData?.docNum,
@@ -35,14 +13,15 @@ export const generateDigiURL = async (formData: any, setShowLoader: any) => {
   // const resp = await clientKYC(payload);
   const resp = await clientKYC(formData?.docNum);
   console.log("handleUploadClick", resp);
-  if (resp) setShowLoader(false);
+  if (resp) {
+    setShowLoader(false);
 
-  // if (resp?.status === 200) {
-  const apiResponse = resp;
-  // const apiResponse = resp?.data;
+    // if (resp?.status === 200) {
+    const apiResponse = resp;
+    // const apiResponse = resp?.data;
 
-  const { access_token,reference_id, customer_identifier,id } = apiResponse;
-    
+    const { access_token, reference_id, customer_identifier, id } = apiResponse;
+
     const entity_id = access_token?.entity_id;
     const token_id = access_token?.id;
     const customerEmail = encodeURIComponent(customer_identifier); // Ensure email is URL safe
@@ -58,25 +37,39 @@ export const generateDigiURL = async (formData: any, setShowLoader: any) => {
     // const digioUrl = `https://ext.digio.in/#/gateway/login/${entity_id}/${token_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
     const digioUrl = `https://ext.digio.in/#/gateway/login/${id}/${reference_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
 
-  console.log(digioUrl, "digioUrl");
-  const width = 500;
-  const height = 750;
+    console.log(digioUrl, "digioUrl");
+    const width = 500;
+    const height = 750;
 
-  // Calculate the center position
-  const left = window.screen.width / 2 - width / 2;
-  const top = window.screen.height / 2 - height / 2;
+    // Calculate the center position
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
 
-  // Set window options, including the calculated center position
-  const windowFeatures = `height=${height},width=${width},top=${top},left=${left},scrollbars=no,resizable=yes`;
+    // -------------------------------------------------------------------
+    // Set window options, including the calculated center position
+    const windowFeatures = `height=${height},width=${width},top=${top},left=${left},scrollbars=no,resizable=yes`;
+    //   const popup: any = 
+    console.log("id && reference_id && customerEmail", id && reference_id && customerEmail);
 
-  const popup: any = window.open(digioUrl, "_blank", windowFeatures);
-  const checkPopupClosed = setInterval(() => {
-    if (popup?.closed) {
-      clearInterval(checkPopupClosed);
-      handleDigiLockerRedirect();
+    if (id && reference_id && customerEmail) {
+      window.open(digioUrl, "_blank", windowFeatures);
+    } else {
+
+      setAlertMsg({ msg: "Please check your internet connection", severity: "error" });
+      setShowLoader(false)
     }
-  }, 500);
-  // }
+    // const checkPopupClosed = setInterval(() => {
+    //   if (popup?.closed) {
+    //     clearInterval(checkPopupClosed);
+    //     handleDigiLockerRedirect();
+    //   }
+    // }, 500);
+    // }
+  }
+  if (!resp) {
+    setAlertMsg({ msg: "Please check your internet connection", severity: "error" });
+    setShowLoader(false)
+  }
 };
 
 export const handleDigiLockerRedirect = () => {

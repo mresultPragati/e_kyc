@@ -58,7 +58,7 @@ export const PersonalDetail = () => {
     // );
     // setAlertMsg({ msg: `Verification Done Successfully`, severity: "success" });
     setShowLoader(true);
-    generateDigiURL(formData, setShowLoader);
+    generateDigiURL(formData, setShowLoader,setAlertMsg);
   };
 
   return (
