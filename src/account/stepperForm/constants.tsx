@@ -1,0 +1,31 @@
+export interface PersonalInfoData {
+  pan: string;
+  aadhar: string;
+  emailVerify: string;
+  firstName: string;
+  lastName: string;
+  dob: string;
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  phoneNumber: string;
+  email: string;
+  accountType: string;
+  maritalStatus: string;
+  fatherName: string;
+  motherName: string;
+  occupationType: string;
+  companyName: string;
+  annualIncome: string;
+  employmentStatus: string;
+  nomineeName: string;
+  relation: string;
+  dateOfBirth: string;
+  nomineeAddress: string;
+  accountCity: null;
+  accountState: null;
+  accountDistrict: null;
+  branch: null;
+  bank: null;
+}
