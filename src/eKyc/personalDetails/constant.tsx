@@ -1,7 +1,10 @@
 import { clientKYC } from "../../services/ApiServices";
 
-export const generateDigiURL = async (formData: any, setShowLoader: any, setAlertMsg: any) => {
-
+export const generateDigiURL = async (
+  formData: any,
+  setShowLoader: any,
+  setAlertMsg: any
+) => {
   const payload = {
     request_details: {
       "aadhar number": formData?.docNum,
@@ -45,18 +48,18 @@ export const generateDigiURL = async (formData: any, setShowLoader: any, setAler
     const left = window.screen.width / 2 - width / 2;
     const top = window.screen.height / 2 - height / 2;
 
-    // -------------------------------------------------------------------
-    // Set window options, including the calculated center position
     const windowFeatures = `height=${height},width=${width},top=${top},left=${left},scrollbars=no,resizable=yes`;
-    //   const popup: any = 
-    console.log("id && reference_id && customerEmail", id && reference_id && customerEmail);
+    //   const popup: any =
+    console.log("id && reference_id && customerEmail", id);
 
-    if (id && reference_id && customerEmail) {
+    if (id) {
       window.open(digioUrl, "_blank", windowFeatures);
     } else {
-
-      setAlertMsg({ msg: "Please check your internet connection", severity: "error" });
-      setShowLoader(false)
+      setAlertMsg({
+        msg: "Please check your internet connection",
+        severity: "error",
+      });
+      setShowLoader(false);
     }
     // const checkPopupClosed = setInterval(() => {
     //   if (popup?.closed) {
@@ -65,10 +68,14 @@ export const generateDigiURL = async (formData: any, setShowLoader: any, setAler
     //   }
     // }, 500);
     // }
+    return;
   }
   if (!resp) {
-    setAlertMsg({ msg: "Please check your internet connection", severity: "error" });
-    setShowLoader(false)
+    setAlertMsg({
+      msg: "Please check your internet connection",
+      severity: "error",
+    });
+    setShowLoader(false);
   }
 };
 

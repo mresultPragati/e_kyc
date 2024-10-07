@@ -70,7 +70,6 @@ const StepFour = ({ onSubmit, formData, setFormData }: any) => {
               name="guardianName"
               value={formData.guardianName}
               onChange={handleChange}
-              required
             />
           </Grid>
           <Grid item xs={12}>
@@ -81,7 +80,6 @@ const StepFour = ({ onSubmit, formData, setFormData }: any) => {
               name="guardianAge"
               value={formData.guardianAge}
               onChange={handleChange}
-              required
             />
           </Grid>
         </Grid>
