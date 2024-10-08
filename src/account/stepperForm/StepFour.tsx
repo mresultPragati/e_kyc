@@ -30,8 +30,8 @@ const StepFour = ({ onSubmit, formData, setFormData }: any) => {
               variant="standard"
               fullWidth
               label="Relation to Account Holder"
-              name="relation"
-              value={formData.relation}
+              name="nomineeRelation"
+              value={formData.nomineeRelation}
               onChange={handleChange}
               required
             />
@@ -53,9 +53,9 @@ const StepFour = ({ onSubmit, formData, setFormData }: any) => {
               variant="standard"
               fullWidth
               label="Date of Birth"
-              name="dateOfBirth"
+              name="nomineeDOB"
               type="date"
-              value={formData.dateOfBirth}
+              value={formData.nomineeDOB}
               onChange={handleChange}
               InputLabelProps={{ shrink: true }}
               required

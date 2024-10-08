@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, IconButton, TextField } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export const StepsOne = ({
   formData,
@@ -8,6 +9,8 @@ export const StepsOne = ({
   isSkip,
   setIsSkip,
 }: any) => {
+  const [isCodeSendClick, setIsCodeSendClick] = useState(false);
+
   const handleSkip = () => {
     setIsSkip(true);
   };
@@ -73,7 +76,41 @@ export const StepsOne = ({
                   onChange={handleChange}
                 />
               </Grid>
-              <Button size="small">Verify Email</Button>
+              <Grid item xs={12}>
+                <Button onClick={() => setIsCodeSendClick(true)} size="small">
+                  Send Code
+                </Button>
+              </Grid>
+              {isCodeSendClick && (
+                <>
+                  <Grid item xs={6}>
+                    <TextField
+                      variant="standard"
+                      required
+                      fullWidth
+                      label="Code"
+                      name="emailCode"
+                      value={formData.emailCode}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Button
+                    onClick={() => setIsCodeSendClick(false)}
+                    size="small"
+                  >
+                    Verify Email
+                  </Button>
+                </>
+              )}
+              <Grid
+                className="mt-3"
+                xs={12}
+                sx={{ display: "flex", justifyContent: "start" }}
+              >
+                <IconButton onClick={() => setIsSkip(false)}>
+                  <ArrowBackIcon />
+                </IconButton>
+              </Grid>
             </>
           )}
         </Grid>

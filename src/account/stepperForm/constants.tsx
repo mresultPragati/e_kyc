@@ -4,7 +4,7 @@ export interface PersonalInfoData {
   emailVerify: string;
   firstName: string;
   lastName: string;
-  dob: string;
+  dateOfBirth: string;
   address: string;
   city: string;
   state: string;
@@ -20,12 +20,15 @@ export interface PersonalInfoData {
   annualIncome: string;
   employmentStatus: string;
   nomineeName: string;
-  relation: string;
-  dateOfBirth: string;
+  nomineeRelation: string;
+  nomineeDOB: string;
   nomineeAddress: string;
   accountCity: null;
   accountState: null;
   accountDistrict: null;
   branch: null;
   bank: null;
+  guardianName: string;
+  guardianAge: string;
+  emailCode: string;
 }

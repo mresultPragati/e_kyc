@@ -19,7 +19,7 @@ interface PersonalInfoFormProps {
 interface PersonalInfoData {
   firstName: string;
   lastName: string;
-  dob: string;
+  dateOfBirth: string;
   address: string;
   city: string;
   state: string;
@@ -33,7 +33,7 @@ const StepTwo = ({ onSubmit, setFormData, formData }: any) => {
   //   const [formData, setFormData] = useState<PersonalInfoData>({
   //     firstName: "",
   //     lastName: "",
-  //     dob: "",
+  //     dateOfBirth: "",
   //     address: "",
   //     city: "",
   //     state: "",
@@ -92,8 +92,8 @@ const StepTwo = ({ onSubmit, setFormData, formData }: any) => {
             fullWidth
             label="Date of Birth"
             type="date"
-            name="dob"
-            value={formData.dob}
+            name="dateOfBirth"
+            value={formData.dateOfBirth}
             onChange={handleChange}
             InputLabelProps={{
               shrink: true,

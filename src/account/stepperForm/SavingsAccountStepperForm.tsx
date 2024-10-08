@@ -35,7 +35,7 @@ const SavingsAccountStepperForm: React.FC = () => {
     emailVerify: "",
     firstName: "",
     lastName: "",
-    dob: "",
+    dateOfBirth: "",
     address: "",
     city: "",
     state: "",
@@ -51,14 +51,17 @@ const SavingsAccountStepperForm: React.FC = () => {
     annualIncome: "",
     employmentStatus: "",
     nomineeName: "",
-    relation: "",
-    dateOfBirth: "",
+    nomineeRelation: "",
+    nomineeDOB: "",
     nomineeAddress: "",
     accountCity: null,
     accountState: null,
     accountDistrict: null,
     branch: null,
     bank: null,
+    guardianName: "",
+    guardianAge: "",
+    emailCode: "",
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [alertMsg, setAlertMsg] = useState({
@@ -113,6 +116,7 @@ const SavingsAccountStepperForm: React.FC = () => {
   };
 
   const handleConfirm = () => {
+    console.log("Form Data Submitted:", formData);
     setAlertMsg({ msg: `Account created successfully`, severity: "success" });
     setOpenDialog(false);
   };

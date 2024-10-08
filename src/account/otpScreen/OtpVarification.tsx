@@ -85,6 +85,7 @@ const OtpVerifyMobile: React.FC = () => {
                     variant="standard"
                     label="Mobile Number"
                     value={mobileNumber}
+                    name={"mobileNumber"}
                     onChange={handleMobileChange}
                     type="tel"
                     inputProps={{ maxLength: 10 }} // Limit to 10 digits
@@ -111,6 +112,7 @@ const OtpVerifyMobile: React.FC = () => {
                       variant="standard"
                       label="Enter OTP"
                       value={otp}
+                      name={"otp"}
                       onChange={handleOtpChange}
                       type="text"
                     />
