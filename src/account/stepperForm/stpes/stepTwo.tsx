@@ -57,7 +57,10 @@ const StepTwo = ({ onSubmit, setFormData, formData }: any) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box
+      component="form"
+      //  onSubmit={handleSubmit}
+    >
       <Grid container spacing={3}>
         {/* First Name */}
         <Grid item xs={12} sm={6}>

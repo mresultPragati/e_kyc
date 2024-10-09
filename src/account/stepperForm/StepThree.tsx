@@ -22,7 +22,9 @@ const StepThree = ({ onSubmit, setFormData, formData }: any) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+    // onSubmit={handleSubmit}
+    >
       <FormControl fullWidth margin="normal">
         <InputLabel>Occupation Type</InputLabel>
         <Select

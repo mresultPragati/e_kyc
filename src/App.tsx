@@ -9,7 +9,6 @@ import "./App.css";
 import PersonalDetailTest from "./Test/Detail";
 import { EKycForm } from "./eKyc";
 import BankAccount from "./account";
-import OtpVerifyMobile from "./account/otpScreen/OtpVarification";
 
 function App() {
   // useEffect(() => {
@@ -50,7 +49,7 @@ function App() {
       <Routes>
         <Route path={navigatorPath.home} element={<Home />} />
         <Route path={navigatorPath.eKyc} element={<EKycForm />} />
-        <Route path={navigatorPath.account} element={<OtpVerifyMobile />} />
+        <Route path={navigatorPath.account} element={<BankAccount />} />
       </Routes>
 
       <Footer />

@@ -18,6 +18,7 @@ import StepFive from "./StepFive";
 import { StepSix } from "./SepSix";
 import ConfirmationDialog from "../../reusableComponet/confirmation/Confirmation";
 import { AlertMessage } from "../../reusableComponet/ALertMessage";
+import { createAccount } from "../../services/ApiServices";
 
 const SavingsAccountStepperForm: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -115,10 +116,13 @@ const SavingsAccountStepperForm: React.FC = () => {
     // You can handle form submission logic here, such as sending data to an API.
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     console.log("Form Data Submitted:", formData);
-    setAlertMsg({ msg: `Account created successfully`, severity: "success" });
-    setOpenDialog(false);
+    const resp = await createAccount(formData);
+    if (resp?.statusCode == 200) {
+      setAlertMsg({ msg: `Account created successfully`, severity: "success" });
+      setOpenDialog(false);
+    }
   };
 
   const renderStepContent = (step: number) => {
@@ -132,7 +136,7 @@ const SavingsAccountStepperForm: React.FC = () => {
             // setAadhar={setAadhar}
             // aadhar={aadhar}
             // setEmail={setEmail}
-            onSubmit={handleFormSubmit}
+            // onSubmit={handleFormSubmit}
             formData={formData}
             setFormData={setFormData}
             isSkip={isSkip}
@@ -168,7 +172,7 @@ const SavingsAccountStepperForm: React.FC = () => {
           //   </Grid>
           // </Grid>
           <StepTwo
-            onSubmit={handleFormSubmit}
+            // onSubmit={handleFormSubmit}
             formData={formData}
             setFormData={setFormData}
           />
@@ -176,7 +180,7 @@ const SavingsAccountStepperForm: React.FC = () => {
       case 2:
         return (
           <StepThree
-            onSubmit={handleFormSubmit}
+            // onSubmit={handleFormSubmit}
             formData={formData}
             setFormData={setFormData}
           />
@@ -185,7 +189,7 @@ const SavingsAccountStepperForm: React.FC = () => {
       case 3:
         return (
           <StepFour
-            onSubmit={handleFormSubmit}
+            // onSubmit={handleFormSubmit}
             formData={formData}
             setFormData={setFormData}
           />
@@ -193,7 +197,7 @@ const SavingsAccountStepperForm: React.FC = () => {
       case 4:
         return (
           <StepFive
-            onSubmit={handleFormSubmit}
+            // onSubmit={handleFormSubmit}
             formData={formData}
             setFormData={setFormData}
           />

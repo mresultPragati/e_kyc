@@ -25,7 +25,9 @@ export const StepsOne = ({
 
   return (
     <>
-      <form onSubmit={onSubmit}>
+      <form
+      // onSubmit={onSubmit}
+      >
         <Grid container spacing={1}>
           {!isSkip ? (
             <>

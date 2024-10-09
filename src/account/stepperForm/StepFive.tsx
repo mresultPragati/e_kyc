@@ -24,6 +24,9 @@ const StepFive = ({ formData, setFormData, onSubmit }: any) => {
   };
 
   const handleAutocompleteChange = (event: any, value: any, name: string) => {
+    // const handleAutocompleteChange = (event: any) => {
+    // const { name, value } = event.target;
+    console.log(name, value, "Form Data Submitted:");
     setFormData({
       ...formData,
       [name]: value,
@@ -31,19 +34,25 @@ const StepFive = ({ formData, setFormData, onSubmit }: any) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form
+    // onSubmit={onSubmit}
+    >
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Autocomplete
             options={states}
             onChange={(event, value) =>
-              handleAutocompleteChange(event, value, "state")
+              handleAutocompleteChange(event, value, "accountState")
             }
+            // onChange={(event: any) => handleAutocompleteChange(event)}
             renderInput={(params) => (
               <TextField
                 variant="standard"
                 {...params}
                 label="State"
+                name="accountState"
+                value={formData?.accountState}
+                // onChange={(event: any) => handleAutocompleteChange(event)}
                 required
               />
             )}
@@ -53,12 +62,15 @@ const StepFive = ({ formData, setFormData, onSubmit }: any) => {
           <Autocomplete
             options={districts}
             onChange={(event, value) =>
-              handleAutocompleteChange(event, value, "district")
+              handleAutocompleteChange(event, value, "accountDistrict")
             }
             renderInput={(params) => (
               <TextField
                 variant="standard"
                 {...params}
+                name="accountDistrict"
+                value={formData?.accountDistrict}
+                // onChange={(event: any) => handleAutocompleteChange(event)}
                 label="District"
                 required
               />
@@ -76,12 +88,15 @@ const StepFive = ({ formData, setFormData, onSubmit }: any) => {
                 variant="standard"
                 {...params}
                 label="Branch"
+                name="branch"
+                value={formData?.branch}
+                // onChange={(event: any) => handleAutocompleteChange(event)}
                 required
               />
             )}
           />
         </Grid>
-        <Grid item xs={6}>
+        {/* <Grid item xs={6}>
           <Autocomplete
             options={banks}
             onChange={(event, value) =>
@@ -91,7 +106,7 @@ const StepFive = ({ formData, setFormData, onSubmit }: any) => {
               <TextField variant="standard" {...params} label="Bank" required />
             )}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     </form>
   );

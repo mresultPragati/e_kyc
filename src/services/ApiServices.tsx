@@ -75,3 +75,25 @@ export const getSingleRequest = async (req_id: string) => {
     throw new Error(`KYC Submission Failed: ${error}`);
   }
 };
+
+export const createAccount = async (payload: any) => {
+  // export const clientKYC = async (payload: any, contentType?: string) => {
+  try {
+    const response = await axiosInstance.post(`/api/user/save`, payload);
+    console.log("KYC Service Response", response);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log("eRRROR KYC Submission Failed:", error.message);
+      if (error.response) {
+        console.log("eRRROR Response data:", error.response.data);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.log("eRRROR Request data:", error.request);
+      }
+    } else {
+      console.log("eRRROR Unexpected error:", error);
+    }
+    throw new Error(`KYC Submission Failed: ${error}`);
+  }
+};

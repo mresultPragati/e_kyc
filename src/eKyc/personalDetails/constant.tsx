@@ -13,15 +13,12 @@ export const generateDigiURL = async (
     template_name: "AADHAR_VARIFICATION",
   };
 
-  // const resp = await clientKYC(payload);
   const resp = await clientKYC(formData?.docNum);
   console.log("handleUploadClick", resp);
+
   if (resp) {
     setShowLoader(false);
-
-    // if (resp?.status === 200) {
     const apiResponse = resp;
-    // const apiResponse = resp?.data;
 
     const { access_token, reference_id, customer_identifier, id } = apiResponse;
 
@@ -37,7 +34,6 @@ export const generateDigiURL = async (
       JSON.stringify({ PRIMARY_COLOR: "#2979BF", SECONDARY_COLOR: "#FFFFFF" })
     );
 
-    // const digioUrl = `https://ext.digio.in/#/gateway/login/${entity_id}/${token_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
     const digioUrl = `https://ext.digio.in/#/gateway/login/${id}/${reference_id}/${customerEmail}?sdkver=${sdkVersion}&logo=${logo}&method=${method}&theme=${theme}`;
 
     console.log(digioUrl, "digioUrl");
@@ -49,27 +45,50 @@ export const generateDigiURL = async (
     const top = window.screen.height / 2 - height / 2;
 
     const windowFeatures = `height=${height},width=${width},top=${top},left=${left},scrollbars=no,resizable=yes`;
-    //   const popup: any =
-    console.log("id && reference_id && customerEmail", id);
 
     if (id) {
-      window.open(digioUrl, "_blank", windowFeatures);
+      const popup = window.open(digioUrl, "_blank", windowFeatures);
+
+      if (popup) {
+        // Poll the popup window's URL to check when KYC is completed
+        console.log(popup?.location?.href, "POPUPRESP");
+        const pollTimer = setInterval(() => {
+          try {
+            // Check if the popup URL contains the success message
+            if (
+              popup.location.href.includes(
+                "exitMessage=KYC%20process%20completed&type=success"
+              )
+            ) {
+              // KYC process completed successfully
+              setAlertMsg({
+                msg: "KYC process completed successfully!",
+                severity: "success",
+              });
+              console.log("POPUPRESP suceess");
+
+              setShowLoader(false);
+              popup.close(); // Close the popup window
+              clearInterval(pollTimer); // Stop polling
+            }
+          } catch (e) {
+            // This will throw errors due to cross-origin security until the URL is redirected to the success page
+            console.log("POPUPRESP err 75");
+            console.log("Error while polling popup window: ", e);
+          }
+        }, 3000); // Poll every second (1000ms)
+      }
     } else {
+      console.log("POPUPRESP err 81 internet");
       setAlertMsg({
         msg: "Please check your internet connection",
         severity: "error",
       });
       setShowLoader(false);
     }
-    // const checkPopupClosed = setInterval(() => {
-    //   if (popup?.closed) {
-    //     clearInterval(checkPopupClosed);
-    //     handleDigiLockerRedirect();
-    //   }
-    // }, 500);
-    // }
     return;
   }
+
   if (!resp) {
     setAlertMsg({
       msg: "Please check your internet connection",
