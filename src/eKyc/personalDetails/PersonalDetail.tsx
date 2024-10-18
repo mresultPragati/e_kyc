@@ -27,7 +27,7 @@ export const PersonalDetail = () => {
   });
   const [showLoader, setShowLoader] = useState(false);
 
-  const handleUploadClick = async (e: React.FormEvent) => {
+  const handleVerification = async (e: React.FormEvent) => {
     // // e.preventDefault();
     if (!formData?.docType || formData?.docType === "") {
       setAlertMsg({
@@ -58,7 +58,12 @@ export const PersonalDetail = () => {
     // );
     // setAlertMsg({ msg: `Verification Done Successfully`, severity: "success" });
     setShowLoader(true);
-    generateDigiURL(formData, setShowLoader,setAlertMsg);
+    await generateDigiURL(
+      formData?.docNum,
+      setShowLoader,
+      setAlertMsg,
+      formData?.docType
+    );
   };
 
   return (
@@ -84,7 +89,7 @@ export const PersonalDetail = () => {
             <Button
               className="mt-5"
               variant="contained"
-              onClick={(e) => handleUploadClick(e)}
+              onClick={(e) => handleVerification(e)}
             >
               Authenticate
             </Button>

@@ -5,7 +5,7 @@ export const clientKYC = async (aadharNum: string) => {
   // export const clientKYC = async (payload: any, contentType?: string) => {
   try {
     const response = await axiosInstance.post(
-      `/api/verify-aadhar?aadhar=${aadharNum}&customerIdentifier=raja.soni@mresult.com&templateName=AADHAR_VARIFICATION`,
+      `/api/verify-aadhar?aadhar=${aadharNum}&customerIdentifier=pragati.dhobe@mresult.com&templateName=AADHAR_VARIFICATION`,
       // payload,
       {
         headers: {
@@ -59,6 +59,30 @@ export const getSingleRequest = async (req_id: string) => {
     // Log the error for debugging
     // console.error("KYC Submission Failed:", error);
     // throw new Error(`KYC Submission Failed: ${error}`);
+    if (axios.isAxiosError(error)) {
+      console.log("eRRROR KYC Submission Failed:", error.message);
+      if (error.response) {
+        // Request made and server responded
+        console.log("eRRROR Response data:", error.response.data);
+        console.log("eRRROR Response status:", error.response.status);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.log("eRRROR Request data:", error.request);
+      }
+    } else {
+      console.log("eRRROR Unexpected error:", error);
+    }
+    throw new Error(`KYC Submission Failed: ${error}`);
+  }
+};
+
+export const verifyPan = async (payload: any) => {
+  // export const clientKYC = async (payload: any, contentType?: string) => {
+  try {
+    const response = await axiosInstance.post(`/api/submitPanRequest`, payload);
+    console.log("KYC pan Response", response);
+    return response.data;
+  } catch (error) {
     if (axios.isAxiosError(error)) {
       console.log("eRRROR KYC Submission Failed:", error.message);
       if (error.response) {

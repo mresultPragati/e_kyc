@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { Button, Grid, IconButton, TextField } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { generateDigiURL } from "../../../eKyc/personalDetails/constant";
+import CircleLoader from "../../../reusableComponet/loader/CircleLoader";
+import {
+  constDocumentType,
+  validateDocumentNumber,
+} from "../../../eKyc/personalDetails/Documents/constants";
+import { AlertMessage } from "../../../reusableComponet/ALertMessage";
 
 export const StepsOne = ({
   formData,
@@ -14,6 +21,11 @@ export const StepsOne = ({
   const handleSkip = () => {
     setIsSkip(true);
   };
+  const [showLoader, setShowLoader] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({
+    msg: "",
+    severity: "",
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,8 +35,40 @@ export const StepsOne = ({
     });
   };
 
+  const handleVerifyPan = async () => {
+    if (!validateDocumentNumber(constDocumentType?.pan, formData?.pan)) {
+      // setAlertMsg({msg:`Invalid ${formData?.docFile?.name} number`,severity:"error"});
+      setAlertMsg({ msg: `Invalid pan number`, severity: "error" });
+      return;
+    }
+    setShowLoader(true);
+    await generateDigiURL(formData?.docNum, setShowLoader, setAlertMsg, "pan");
+
+    // if (resp) {
+    //   setAlertMsg({ msg: `Pan verify successfully`, severity: "success" });
+    // }
+  };
+
+  const handleVerifyAadhhar = async () => {
+    if (!validateDocumentNumber(constDocumentType?.aadhar, formData?.aadhar)) {
+      // setAlertMsg({msg:`Invalid ${formData?.docFile?.name} number`,severity:"error"});
+      setAlertMsg({ msg: `Invalid aadhar number`, severity: "error" });
+      return;
+    }
+
+    setShowLoader(true);
+    await generateDigiURL(
+      formData.aadhar,
+      setShowLoader,
+      setAlertMsg,
+      "aadhar"
+    );
+  };
+
   return (
     <>
+      <AlertMessage alertMsg={alertMsg} setAlertMsg={setAlertMsg} />
+      {showLoader && <CircleLoader />}
       <form
       // onSubmit={onSubmit}
       >
@@ -42,7 +86,9 @@ export const StepsOne = ({
                   onChange={handleChange}
                 />
               </Grid>
-              <Button size="small">Verify PAN</Button>
+              <Button onClick={() => handleVerifyPan()} size="small">
+                Verify PAN
+              </Button>
               <Grid item xs={12}>
                 <TextField
                   variant="standard"
@@ -54,7 +100,9 @@ export const StepsOne = ({
                   onChange={handleChange}
                 />
               </Grid>
-              <Button size="small">Verify Aadhar</Button>
+              <Button onClick={() => handleVerifyAadhhar()} size="small">
+                Verify Aadhar
+              </Button>
               <Grid xs={12} sx={{ display: "flex", justifyContent: "end" }}>
                 <Button
                   onClick={() => handleSkip()}

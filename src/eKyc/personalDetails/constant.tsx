@@ -1,9 +1,10 @@
-import { clientKYC } from "../../services/ApiServices";
+import { clientKYC, verifyPan } from "../../services/ApiServices";
 
 export const generateDigiURL = async (
   formData: any,
   setShowLoader: any,
-  setAlertMsg: any
+  setAlertMsg: any,
+  type: string
 ) => {
   const payload = {
     request_details: {
@@ -12,9 +13,17 @@ export const generateDigiURL = async (
     customer_identifier: "pragati.dhobe@mresult.com",
     template_name: "AADHAR_VARIFICATION",
   };
-
-  const resp = await clientKYC(formData?.docNum);
-  console.log("handleUploadClick", resp);
+  var resp;
+  if (type === "aadhar") {
+    resp = await clientKYC(formData?.docNum);
+  } else {
+    const payload = {
+      customer_identifier: "pragati.dhobe@mresult.com",
+      template_name: "PAN_VARIFICATION",
+    };
+    resp = await verifyPan(payload);
+  }
+  console.log("respresp", resp);
 
   if (resp) {
     setShowLoader(false);
@@ -45,39 +54,42 @@ export const generateDigiURL = async (
     const top = window.screen.height / 2 - height / 2;
 
     const windowFeatures = `height=${height},width=${width},top=${top},left=${left},scrollbars=no,resizable=yes`;
+    console.log("resppppp", resp);
 
     if (id) {
-      const popup = window.open(digioUrl, "_blank", windowFeatures);
+      // const popup =
+      window.open(digioUrl, "_blank", windowFeatures);
 
-      if (popup) {
-        // Poll the popup window's URL to check when KYC is completed
-        console.log(popup?.location?.href, "POPUPRESP");
-        const pollTimer = setInterval(() => {
-          try {
-            // Check if the popup URL contains the success message
-            if (
-              popup.location.href.includes(
-                "exitMessage=KYC%20process%20completed&type=success"
-              )
-            ) {
-              // KYC process completed successfully
-              setAlertMsg({
-                msg: "KYC process completed successfully!",
-                severity: "success",
-              });
-              console.log("POPUPRESP suceess");
+      // if (popup) {
+      //   // Poll the popup window's URL to check when KYC is completed
+      //   console.log(popup?.location?.href, "POPUPRESP");
+      //   const pollTimer = setInterval(() => {
+      //     try {
+      //       // Check if the popup URL contains the success message
+      //       if (
+      //         popup.location.href.includes(
+      //           "exitMessage=KYC%20process%20completed&type=success"
+      //         )
+      //       ) {
+      //         // KYC process completed successfully
+      //         setAlertMsg({
+      //           msg: "KYC process completed successfully!",
+      //           severity: "success",
+      //         });
+      //         console.log("POPUPRESP suceess");
 
-              setShowLoader(false);
-              popup.close(); // Close the popup window
-              clearInterval(pollTimer); // Stop polling
-            }
-          } catch (e) {
-            // This will throw errors due to cross-origin security until the URL is redirected to the success page
-            console.log("POPUPRESP err 75");
-            console.log("Error while polling popup window: ", e);
-          }
-        }, 3000); // Poll every second (1000ms)
-      }
+      //         setShowLoader(false);
+      //         popup.close(); // Close the popup window
+      //         clearInterval(pollTimer); // Stop polling
+      //       }
+      //     } catch (e) {
+      //       // This will throw errors due to cross-origin security until the URL is redirected to the success page
+      //       console.log("POPUPRESP err 75");
+      //       console.log("Error while polling popup window: ", e);
+      //     }
+      //   }, 3000); // Poll every second (1000ms)
+      // }
+      return;
     } else {
       console.log("POPUPRESP err 81 internet");
       setAlertMsg({
