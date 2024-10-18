@@ -18,8 +18,8 @@ export const generateDigiURL = async (
     resp = await clientKYC(formData?.docNum);
   } else {
     const payload = {
-      customer_identifier: "pragati.dhobe@mresult.com",
-      template_name: "PAN_VARIFICATION",
+      identifier: "pragati.dhobe@mresult.com",
+      panNum: formData?.docNum,
     };
     resp = await verifyPan(payload);
   }
