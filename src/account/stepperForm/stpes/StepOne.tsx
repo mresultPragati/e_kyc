@@ -61,7 +61,7 @@ export const StepsOne = ({
       formData.aadhar,
       setShowLoader,
       setAlertMsg,
-      "aadhar"
+      "Aadhar"
     );
   };
 

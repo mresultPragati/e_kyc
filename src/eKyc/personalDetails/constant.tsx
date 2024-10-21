@@ -1,25 +1,21 @@
 import { clientKYC, verifyPan } from "../../services/ApiServices";
 
 export const generateDigiURL = async (
-  formData: any,
+  docNum: any,
   setShowLoader: any,
   setAlertMsg: any,
-  type: string
+  type: string,
+  email?: string
 ) => {
-  const payload = {
-    request_details: {
-      "aadhar number": formData?.docNum,
-    },
-    customer_identifier: "pragati.dhobe@mresult.com",
-    template_name: "AADHAR_VARIFICATION",
-  };
+  console.log("EXXPD0097L", email, type);
+
   var resp;
-  if (type === "aadhar") {
-    resp = await clientKYC(formData?.docNum);
+  if (type === "Aadhar") {
+    resp = await clientKYC(docNum);
   } else {
     const payload = {
       identifier: "pragati.dhobe@mresult.com",
-      panNum: formData?.docNum,
+      panNum: docNum,
     };
     resp = await verifyPan(payload);
   }

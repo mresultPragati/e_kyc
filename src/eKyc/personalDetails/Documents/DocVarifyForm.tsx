@@ -12,7 +12,11 @@ import {
 import React, { useState } from "react";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { constDocumentType, handleCancelFile } from "./constants";
+import {
+  constDocumentType,
+  handleCancelFile,
+  validatePersonalForm,
+} from "./constants";
 
 export const DocVerifyForm = (props: any) => {
   const {
@@ -38,6 +42,8 @@ export const DocVerifyForm = (props: any) => {
       ...formData,
       [name]: value,
     });
+
+    // validatePersonalForm(formData, setErrors);
 
     switch (formData?.docType) {
       case "Aadhar":
@@ -86,7 +92,31 @@ export const DocVerifyForm = (props: any) => {
       <div>
         {" "}
         <FormControl>
-          <FormLabel id="demo-row-radio-buttons-group-label">
+          {/* <TextField
+            className="mt-4"
+            variant="standard"
+            label="Name: "
+            name="name"
+            value={formData?.name}
+            onChange={(e) => handleInputChange(e)}
+            fullWidth
+            required
+            // error={!!errors}
+            // helperText={errors}
+          /> */}
+          <TextField
+            className="mt-4"
+            variant="standard"
+            label="Email: "
+            name="email"
+            value={formData?.email}
+            onChange={(e) => handleInputChange(e)}
+            fullWidth
+            required
+            // error={!!errors}
+            // helperText={errors}
+          />
+          <FormLabel id="demo-row-radio-buttons-group-label" className="mt-4">
             Update KYC Type:{" "}
           </FormLabel>
           <RadioGroup

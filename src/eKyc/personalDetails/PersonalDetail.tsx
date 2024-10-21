@@ -1,7 +1,10 @@
 import { Button, FormControl } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { DocVerifyForm } from "./Documents/DocVarifyForm";
-import { validateDocumentNumber } from "./Documents/constants";
+import {
+  validateDocumentNumber,
+  validatePersonalForm,
+} from "./Documents/constants";
 import { AlertMessage } from "../../reusableComponet/ALertMessage";
 import { clientKYC } from "../../services/ApiServices";
 import CircleLoader from "../../reusableComponet/loader/CircleLoader";
@@ -29,6 +32,22 @@ export const PersonalDetail = () => {
 
   const handleVerification = async (e: React.FormEvent) => {
     // // e.preventDefault();
+
+    // if (!formData?.name || formData?.name === "") {
+    //   setAlertMsg({
+    //     msg: "Please enter name",
+    //     severity: "error",
+    //   });
+    //   return;
+    // }
+    if (!formData?.email || formData?.email === "") {
+      setAlertMsg({
+        msg: "Please enter email  ",
+        severity: "error",
+      });
+      return;
+    }
+
     if (!formData?.docType || formData?.docType === "") {
       setAlertMsg({
         msg: "Please select a document type",
@@ -62,7 +81,8 @@ export const PersonalDetail = () => {
       formData?.docNum,
       setShowLoader,
       setAlertMsg,
-      formData?.docType
+      formData?.docType,
+      formData?.email
     );
   };
 
