@@ -1,6 +1,7 @@
 export interface PersonalInfoData {
-  pan: string;
-  aadhar: string;
+  // pan: string;
+  // aadhar: string;
+  docNum: string;
   emailVerify: string;
   firstName: string;
   lastName: string;
@@ -31,6 +32,8 @@ export interface PersonalInfoData {
   guardianName: string;
   guardianAge: string;
   emailCode: string;
+  docType: string;
+  accountEmail: string;
 }
 
 export const districts = [

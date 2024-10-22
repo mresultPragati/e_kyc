@@ -1,21 +1,23 @@
 import { clientKYC, verifyPan } from "../../services/ApiServices";
+import { constDocumentType } from "./Documents/constants";
 
 export const generateDigiURL = async (
-  docNum: any,
+  formData: any,
+  // formData?.docNum: any,
   setShowLoader: any,
-  setAlertMsg: any,
-  type: string,
-  email?: string
+  setAlertMsg: any
+  // type: string,
+  // email?: string
 ) => {
-  console.log("EXXPD0097L", email, type);
+  console.log("EXXPD0097L", formData);
 
   var resp;
-  if (type === "Aadhar") {
-    resp = await clientKYC(docNum);
-  } else {
+  if (formData?.docType === constDocumentType.aadhar) {
+    resp = await clientKYC(formData?.docNum, formData?.email);
+  } else if (formData?.docType === constDocumentType.pan) {
     const payload = {
-      identifier: "pragati.dhobe@mresult.com",
-      panNum: docNum,
+      identifier: formData?.email,
+      panNum: formData?.docNum,
     };
     resp = await verifyPan(payload);
   }
@@ -29,7 +31,7 @@ export const generateDigiURL = async (
 
     const entity_id = access_token?.entity_id;
     const token_id = access_token?.id;
-    const customerEmail = encodeURIComponent(customer_identifier); // Ensure email is URL safe
+    const customerEmail = encodeURIComponent(customer_identifier); // Ensure formData?.email is URL safe
 
     // Construct the URL
     const sdkVersion = "9.0";

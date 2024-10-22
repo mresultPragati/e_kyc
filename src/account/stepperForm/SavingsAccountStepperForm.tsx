@@ -31,8 +31,9 @@ const SavingsAccountStepperForm: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [isSkip, setIsSkip] = useState(false);
   const [formData, setFormData] = useState<PersonalInfoData>({
-    pan: "",
-    aadhar: "",
+    // pan: "",
+    // aadhar: "",
+    docNum: "",
     emailVerify: "",
     firstName: "",
     lastName: "",
@@ -63,6 +64,8 @@ const SavingsAccountStepperForm: React.FC = () => {
     guardianName: "",
     guardianAge: "",
     emailCode: "",
+    docType: "",
+    accountEmail: "",
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [alertMsg, setAlertMsg] = useState({

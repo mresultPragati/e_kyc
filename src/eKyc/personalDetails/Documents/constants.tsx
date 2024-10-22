@@ -3,8 +3,8 @@ export const handleCancelFile = (setFile: any) => {
 };
 
 export const constDocumentType = {
-  aadhar: "Aadhar",
-  pan: "PAN",
+  aadhar: "aadhar",
+  pan: "pan",
   drivingLicense: "Driving License",
   passport: "Passport",
 };
@@ -13,7 +13,7 @@ export const validateDocumentNumber = (
   docType: string,
   number: string
 ): boolean => {
-  console.log("handleDocTypeChange file", docType);
+  console.log("handleDocTypeChange file", docType, number);
   switch (docType) {
     case constDocumentType?.aadhar:
       return /^\d{12}$/.test(number); // Aadhaar is 12 digits

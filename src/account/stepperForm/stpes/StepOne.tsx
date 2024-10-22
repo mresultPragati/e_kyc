@@ -27,43 +27,73 @@ export const StepsOne = ({
     severity: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: any, type?: string) => {
     const { name, value } = e.target;
+    console.log("handleDocTypeChange", name, value, type);
+
     setFormData({
       ...formData,
       [name]: value,
+      docType: type,
     });
-  };
-
-  const handleVerifyPan = async () => {
-    if (!validateDocumentNumber(constDocumentType?.pan, formData?.pan)) {
-      // setAlertMsg({msg:`Invalid ${formData?.docFile?.name} number`,severity:"error"});
-      setAlertMsg({ msg: `Invalid pan number`, severity: "error" });
-      return;
-    }
-    setShowLoader(true);
-    await generateDigiURL(formData?.docNum, setShowLoader, setAlertMsg, "pan");
-
-    // if (resp) {
-    //   setAlertMsg({ msg: `Pan verify successfully`, severity: "success" });
+    // if (type === constDocumentType?.pan || type === constDocumentType?.aadhar) {
+    //   setFormData({
+    //     ...formData,
+    //     docType: name,
+    //   });
     // }
   };
 
-  const handleVerifyAadhhar = async () => {
-    if (!validateDocumentNumber(constDocumentType?.aadhar, formData?.aadhar)) {
-      // setAlertMsg({msg:`Invalid ${formData?.docFile?.name} number`,severity:"error"});
-      setAlertMsg({ msg: `Invalid aadhar number`, severity: "error" });
-      return;
-    }
+  const handleVerification = async () => {
+    if (formData?.docType === constDocumentType.pan) {
+      if (!validateDocumentNumber(constDocumentType?.pan, formData?.docNum)) {
+        // setAlertMsg({msg:`Invalid ${formData?.docFile?.name} number`,severity:"error"});
+        setAlertMsg({
+          msg: `Invalid pan number`,
+          severity: "error",
+        });
+        return;
+      }
+    } else {
+      console.log(
+        formData?.docNum,
+        validateDocumentNumber(constDocumentType?.aadhar, formData?.docNum),
+        "handleDocTypeChange"
+      );
 
+      if (
+        !validateDocumentNumber(constDocumentType?.aadhar, formData?.docNum)
+      ) {
+        // setAlertMsg({msg:`Invalid ${formData?.docFile?.name} number`,severity:"error"});
+        setAlertMsg({
+          msg: `Invalid aadhar number`,
+          severity: "error",
+        });
+        return;
+      }
+    }
     setShowLoader(true);
-    await generateDigiURL(
-      formData.aadhar,
-      setShowLoader,
-      setAlertMsg,
-      "Aadhar"
-    );
+    let stepOneForm = {
+      email: formData.accountEmail,
+      docType: formData.docType,
+      docNum: formData.docNum,
+    };
+    console.log(" formData.docType", stepOneForm, formData);
+
+    await generateDigiURL(stepOneForm, setShowLoader, setAlertMsg);
   };
+
+  // const handleAddharVerification = async () => {
+  //   if (!validateDocumentNumber(constDocumentType?.aadhar, formData?.aadhar)) {
+  //     // setAlertMsg({msg:`Invalid ${formData?.docFile?.name} number`,severity:"error"});
+  //     setAlertMsg({ msg: `Invalid aadhar number`, severity: "error" });
+  //     return;
+  //   }
+
+  //   setShowLoader(true);
+  //   await generateDigiURL(formData, setShowLoader, setAlertMsg);
+  // };
+  console.log("handleChange", formData);
 
   return (
     <>
@@ -75,18 +105,30 @@ export const StepsOne = ({
         <Grid container spacing={1}>
           {!isSkip ? (
             <>
+              <Grid item xs={12} className="mb-3">
+                <TextField
+                  variant="standard"
+                  // required
+                  fullWidth
+                  label="Email"
+                  name="accountEmail"
+                  value={formData?.accountEmail}
+                  onChange={handleChange}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   variant="standard"
                   // required
                   fullWidth
                   label="PAN Number"
-                  name="pan"
+                  name="docNum"
+                  // name={constDocumentType.pan}
                   value={formData?.pan}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e, constDocumentType?.pan)}
                 />
               </Grid>
-              <Button onClick={() => handleVerifyPan()} size="small">
+              <Button onClick={() => handleVerification()} size="small">
                 Verify PAN
               </Button>
               <Grid item xs={12}>
@@ -95,12 +137,13 @@ export const StepsOne = ({
                   // required
                   fullWidth
                   label="Aadhaar Number"
-                  name="aadhar"
+                  name="docNum"
+                  // name={constDocumentType.aadhar}
                   value={formData.aadhar}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e, constDocumentType?.aadhar)}
                 />
               </Grid>
-              <Button onClick={() => handleVerifyAadhhar()} size="small">
+              <Button onClick={() => handleVerification()} size="small">
                 Verify Aadhar
               </Button>
               <Grid xs={12} sx={{ display: "flex", justifyContent: "end" }}>

@@ -46,26 +46,26 @@ export const DocVerifyForm = (props: any) => {
     // validatePersonalForm(formData, setErrors);
 
     switch (formData?.docType) {
-      case "Aadhar":
+      case constDocumentType?.aadhar:
         setErrors(
           /^\d{12}$/.test(value) ? "" : "Aadhaar must be a 12-digit number"
         );
         break;
-      case "PAN":
+      case constDocumentType?.pan:
         setErrors(
           /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value)
             ? ""
             : "PAN must be in format: 5 letters, 4 digits, and 1 letter"
         );
         break;
-      case "Driving License":
+      case constDocumentType?.drivingLicense:
         setErrors(
           /^[A-Z]{1,2}[0-9]{13}$/.test(value)
             ? ""
             : "Driving license should have 1-2 letters followed by 13 digits"
         );
         break;
-      case "passport":
+      case constDocumentType?.passport:
         setErrors(
           /^[A-Z]{1}[0-9]{7}$/.test(value)
             ? ""

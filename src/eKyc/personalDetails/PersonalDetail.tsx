@@ -77,13 +77,7 @@ export const PersonalDetail = () => {
     // );
     // setAlertMsg({ msg: `Verification Done Successfully`, severity: "success" });
     setShowLoader(true);
-    await generateDigiURL(
-      formData?.docNum,
-      setShowLoader,
-      setAlertMsg,
-      formData?.docType,
-      formData?.email
-    );
+    await generateDigiURL(formData, setShowLoader, setAlertMsg);
   };
 
   return (
